@@ -2,6 +2,9 @@
 const http = require('http');
 const pug = require('pug');
 const auth = require('http-auth');
+const contentTypes = {
+  'Content-Type': 'text/html; charset=utf-8'
+}
 const basic = auth.basic(
   { realm: 'Enquetes Area.' },
   (username, password, callback) => {
@@ -11,16 +14,12 @@ const server = http.createServer(basic, (req, res) => {
   console.info('Requested by ' + req.connection.remoteAddress);
 
   if (req.url === "/logout") {
-    res.writeHead(401, {
-      'Content-Type': 'text/html; charset=utf-8'
-    });
+    res.writeHead(401, contentTypes);
     res.end('ログアウトしました');
     return;
   }
 
-  res.writeHead(200, {
-    'Content-Type': 'text/html; charset=utf-8'
-  });
+  res.writeHead(200, contentTypes);
   switch (req.method) {
     case 'GET':
       if (req.url === '/enquetes/yaki-shabu') {
